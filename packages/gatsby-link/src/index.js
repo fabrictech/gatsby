@@ -21,11 +21,7 @@ class GatsbyLink extends React.Component {
     //
     // TODO also add check if user is using SW, e.g. window.caches as if
     // not we should preload here too.
-    if (
-      process.env.NODE_ENV === `production` &&
-      (!(`serviceWorker` in window.navigator) ||
-        window.location.protocol !== `https:`)
-    ) {
+    if (process.env.NODE_ENV === `production`) {
       requestUserIdle(() => {
         ___loadScriptsForPath(this.props.to)
       })
