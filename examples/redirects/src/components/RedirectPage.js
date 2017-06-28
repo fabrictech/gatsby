@@ -5,7 +5,7 @@ class RedirectPage extends React.Component {
 
     componentDidMount() {
         if (process.env.NODE_ENV === `production`) {
-            window.___navigateTo(`/b/`)
+            window.___navigateTo(this.props.pathContext.to)
         }
     }
 
@@ -13,7 +13,7 @@ class RedirectPage extends React.Component {
         return (
             <Route
                 path="*"
-                render={() => <Redirect to={`/b/`} />}
+                render={() => <Redirect to={this.props.pathContext.to} />}
             />
         )
     }
