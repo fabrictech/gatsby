@@ -10,5 +10,9 @@ module.exports = {
       },
     },
     `gatsby-plugin-offline`,
+    {
+      resolve: `gatsby-plugin-client-only-paths`,
+      options: { prefixes: [`/*`] },
+    },
   ],
 }
