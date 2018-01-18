@@ -1,4 +1,6 @@
 import React from "react"
+import Helmet from "react-helmet"
+
 import Container from "../../components/container"
 import BlogPostPreviewItem from "../../components/blog-post-preview-item"
 
@@ -19,6 +21,9 @@ class BlogPostsIndex extends React.Component {
           },
         }}
       >
+        <Helmet>
+          <title>Blog</title>
+        </Helmet>
         <Container
           css={{
             [presets.Tablet]: {
@@ -65,12 +70,13 @@ class BlogPostsIndex extends React.Component {
                   paddingRight: rhythm(options.blockMarginBottom * 3),
                   marginLeft: rhythm(-options.blockMarginBottom * 2),
                   marginRight: rhythm(-options.blockMarginBottom * 2),
-                  transition: `transform ${presets.animation
-                    .speedDefault} ${presets.animation
-                    .curveDefault},  box-shadow ${presets.animation
-                    .speedDefault} ${presets.animation
-                    .curveDefault}, padding ${presets.animation
-                    .speedDefault} ${presets.animation.curveDefault}`,
+                  transition: `transform ${presets.animation.speedDefault} ${
+                    presets.animation.curveDefault
+                  },  box-shadow ${presets.animation.speedDefault} ${
+                    presets.animation.curveDefault
+                  }, padding ${presets.animation.speedDefault} ${
+                    presets.animation.curveDefault
+                  }`,
                   "&:hover": {
                     transform: `translateY(-4px)`,
                     boxShadow: `0 10px 42px rgba(25, 17, 34, 0.1)`,

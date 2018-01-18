@@ -1,9 +1,14 @@
 import React from "react"
+import Helmet from "react-helmet"
 import Link from "gatsby-link"
+
 import Container from "../components/container"
 
 export default () => (
   <Container>
+    <Helmet>
+      <title>Tutorial</title>
+    </Helmet>
     <h1 css={{ marginTop: 0 }}>Gatsby.js Tutorial</h1>
     <p>
       Hi! We’re so happy you decided to try using Gatsby. This tutorial has (or
@@ -24,8 +29,7 @@ export default () => (
       <li>
         <Link to="/tutorial/part-two/">
           Introduction to using CSS in Gatsby
-        </Link>. Explore libraries like Typography.js, CSS Modules, Glamor, and
-        Styled Components.
+        </Link>. Explore libraries like Typography.js and CSS Modules.
       </li>
       <li>
         <Link to="/tutorial/part-three/">
@@ -40,7 +44,7 @@ export default () => (
         {` `}
         Explore source & transformer plugins. Get introduced to programmatic
         pages and how to write GraphQL queries. In this part of the tutorial
-        we'll build a simple markdown blog.
+        we'll build a bare-bones markdown blog.
       </li>
       <li>
         Finishing and deploying a website. React Helmet. We walk through how to

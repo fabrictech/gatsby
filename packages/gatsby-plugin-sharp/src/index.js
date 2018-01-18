@@ -262,8 +262,9 @@ function queueImageResizing({ file, args = {} }) {
 
   const argsDigestShort = argsDigest.substr(argsDigest.length - 5)
 
-  const imgSrc = `/${file.internal
-    .contentDigest}-${argsDigestShort}.${fileExtension}`
+  const imgSrc = `/${file.name}-${
+    file.internal.contentDigest
+  }-${argsDigestShort}.${fileExtension}`
   const filePath = path.join(process.cwd(), `public`, `static`, imgSrc)
 
   // Create function to call when the image is finished.
@@ -276,7 +277,7 @@ function queueImageResizing({ file, args = {} }) {
   let height
   // Calculate the eventual width/height of the image.
   const dimensions = imageSize(file.absolutePath)
-  const aspectRatio = dimensions.width / dimensions.height
+  let aspectRatio = dimensions.width / dimensions.height
   const originalName = file.base
 
   // If the width/height are both set, we're cropping so just return
@@ -284,6 +285,8 @@ function queueImageResizing({ file, args = {} }) {
   if (options.width && options.height) {
     width = options.width
     height = options.height
+    // Recalculate the aspectRatio for the cropped photo
+    aspectRatio = width / height
   } else {
     // Use the aspect ratio of the image to calculate what will be the resulting
     // height.
@@ -390,6 +393,7 @@ async function responsiveSizes({ file, args = {} }) {
     duotone: false,
     pathPrefix: ``,
     toFormat: ``,
+    sizeByPixelDensity: false,
   }
   const options = _.defaults({}, args, defaultArgs)
   options.maxWidth = parseInt(options.maxWidth, 10)
@@ -398,7 +402,9 @@ async function responsiveSizes({ file, args = {} }) {
   // images are intended to be displayed at their native resolution.
   const { width, height, density } = await sharp(file.absolutePath).metadata()
   const pixelRatio =
-    typeof density === `number` && density > 0 ? density / 72 : 1
+    options.sizeByPixelDensity && typeof density === `number` && density > 0
+      ? density / 72
+      : 1
   const presentationWidth = Math.min(
     options.maxWidth,
     Math.round(width / pixelRatio)
@@ -511,7 +517,7 @@ async function resolutions({ file, args = {} }) {
   sizes.push(options.width * 3)
   const dimensions = imageSize(file.absolutePath)
 
-  const filteredSizes = sizes.filter(size => size < dimensions.width)
+  const filteredSizes = sizes.filter(size => size <= dimensions.width)
 
   // If there's no sizes after filtering (e.g. image is smaller than what's
   // requested, add back the original so there's at least something)
@@ -519,7 +525,9 @@ async function resolutions({ file, args = {} }) {
     filteredSizes.push(dimensions.width)
     console.warn(
       `
-                 The requested width "${options.width}px" for a resolutions field for
+                 The requested width "${
+                   options.width
+                 }px" for a resolutions field for
                  the file ${file.absolutePath}
                  was wider than the actual image width of ${dimensions.width}px!
                  If possible, replace the current image with a larger one.
@@ -644,8 +652,9 @@ async function notMemoizedtraceSVG({ file, args, fileArgs }) {
   }
 
   const tmpDir = require(`os`).tmpdir()
-  const tmpFilePath = `${tmpDir}/${file.internal
-    .contentDigest}-${file.name}-${crypto
+  const tmpFilePath = `${tmpDir}/${file.internal.contentDigest}-${
+    file.name
+  }-${crypto
     .createHash(`md5`)
     .update(JSON.stringify(fileArgs))
     .digest(`hex`)}.${file.extension}`
