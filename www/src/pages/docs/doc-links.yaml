@@ -28,6 +28,8 @@
       link: /docs/adding-images-fonts-files/
     - title: Browser Support
       link: /docs/browser-support/
+    - title: Building apps with Gatsby
+      link: /docs/building-apps-with-gatsby/
     - title: Caching
       link: /docs/caching/
     - title: Creating and Modifying Pages
@@ -82,6 +84,8 @@
       link: /docs/node-apis/
     - title: Gatsby SSR APIs
       link: /docs/ssr-apis/
+    - title: Gatsby Config
+      link: /docs/gatsby-config/
 - title: Contributing
   items:
     - title: How to Contribute
